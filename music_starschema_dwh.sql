@@ -6,14 +6,8 @@ create schema star_schema;
 use schema star_schema;
 
 create or replace table dimDate(
-  date_key number identity(1,1) primary key,
-  date date,
-  year number, 
-  quarter number, 
-  month number, 
-  day number, 
-  week number, 
-  is_weekend boolean
+  Dyear number identity(1,1) primary key
+  
 );
 
 create  or replace table  DimAlbum(
@@ -45,13 +39,11 @@ create  or replace table DimTrack(
 ); 
 
 create  or replace table FactAnalysTrack(
-    AnalystTrackID number primary key,
+    AnalystTrackID number identity(1,1) ,
     TrackId number foreign key references DimTrack(TrackId),
     albumId number foreign key references DimAlbum(albumId),
-    dateId number foreign key references DimDate(date_key),
+    dateId number foreign key references DimDate(Dyear),
     playlistId number foreign key references DimPlayList(playlistId),
     milliseconds number    
 
 );
-
-
