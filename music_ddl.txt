@@ -1,0 +1,77 @@
+use warehouse query;
+//create database music;
+use schema public;
+
+create table playlist (
+    playlistId number primary key,
+    name string
+
+); 
+
+create table genre (
+    genreid number primary key,
+    name string
+
+); 
+
+create table mediatype (
+    mediatypeId number primary key,
+    name string
+
+); 
+create table artist(
+    artistid number primary key,
+    name string, 
+    birth_year number, 
+    country string
+);
+
+create table Album(
+    albumId number primary key, 
+    title string,
+    artistId number foreign key references artist(artistId),
+    prodYear number,
+    cdYear number
+    
+); 
+
+create table track(
+    TrackId number primary key,
+    title string, 
+    albumId number foreign key references album(albumId),
+    mediaTypeId number foreign key references mediaType(mediaTypeId),
+    genreId number foreign key references genre(genreId),    
+    composer string,
+    milliseconds number, 
+    bytes number, 
+    unitPrice number
+);
+
+
+
+
+create table playlistTrack (
+    playlistId number foreign key references playlist(playlistid),
+    TrackId number foreign key references Track(TrackId)
+
+); 
+
+
+
+
+create file format classic_csv
+type = 'csv' compression = 'auto'
+field_delimiter = ',' record_delimiter ='\n'
+skip_header = 1 field_optionally_enclosed_by = 'NONE'
+trim_space = false error_on_column_count_mismatch = true 
+escape = 'NONE' escape_unenclosed_field = '\134' 
+date_format = 'auto ' timestamp_format = 'auto' null_if = ('\\N');
+
+
+create file format error_csv
+type = 'csv' compression = 'auto'
+field_delimiter = ',' record_delimiter ='\n'
+skip_header = 1 field_optionally_enclosed_by = 'NONE'
+trim_space = false error_on_column_count_mismatch = false 
+escape = 'NONE' escape_unenclosed_field = '\134' 
+date_format = 'auto ' timestamp_format = 'auto' null_if = ('\\N');
